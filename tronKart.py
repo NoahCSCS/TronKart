@@ -1,5 +1,6 @@
 import pygame
 import random
+from operator import itemgetter as getall
 from player import Player
 
 BASE_SPEED = 8
@@ -8,6 +9,11 @@ BACKGROUND_COLOR = (0, 0, 0)
 
 SPEED_INCREMENT = 1
 ANGLE_INCREMENT = 5
+
+PKEYS_UP = [pygame.K_w, pygame.K_UP]
+PKEYS_DOWN = [pygame.K_s, pygame.K_DOWN]
+PKEYS_LEFT = [pygame.K_a, pygame.K_LEFT]
+PKEYS_RIGHT = [pygame.K_d, pygame.K_RIGHT]
 
 
 class TronKart:
@@ -36,13 +42,13 @@ class TronKart:
                     break
 
             keys = pygame.key.get_pressed()
-            if (keys[pygame.K_w] or keys[pygame.K_UP]):  # Speed up
+            if any(getall(*PKEYS_UP)(keys)):  # Speed up
                 self.player.change_speed(SPEED_INCREMENT)
-            if (keys[pygame.K_s] or keys[pygame.K_DOWN]):  # Slow down
+            if any(getall(*PKEYS_DOWN)(keys)):  # Slow down
                 self.player.change_speed(-SPEED_INCREMENT)
-            if (keys[pygame.K_a] or keys[pygame.K_LEFT]):  # Turn left
+            if any(getall(*PKEYS_LEFT)(keys)):  # Turn left
                 self.player.change_direction(ANGLE_INCREMENT)
-            if (keys[pygame.K_d] or keys[pygame.K_RIGHT]):  # Turn right
+            if any(getall(*PKEYS_RIGHT)(keys)):  # Turn right
                 self.player.change_direction(-ANGLE_INCREMENT)
 
             self.window.fill(self.bgColor)
