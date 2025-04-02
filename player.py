@@ -18,8 +18,9 @@ class Player:
         self.rect = self.image.get_rect()
         self.trail = Trail(BLUE, TRAIL_WIDTH)
 
-    def change_direction(self, angle_change): # angle is in degrees
+    def change_direction(self, angle_change):  # angle is in degrees
         self.direction_angle = (self.direction_angle + angle_change) % 360
+
 
     def change_speed(self, speed_change):
         self.speed = max(min(self.speed + speed_change, MAX_SPEED), MIN_SPEED)

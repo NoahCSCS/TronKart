@@ -1,26 +1,29 @@
 import pygame
-import math
+import random
 from player import Player
 
 BASE_SPEED = 8
-BASE_DIRECTION = 0
+BASE_DIRECTION = random.randint(0, 359)
 BACKGROUND_COLOR = (0, 0, 0)
 
 SPEED_INCREMENT = 1
 ANGLE_INCREMENT = 5
 
+
 class TronKart:
-    def __init__(self, width=1200, height=800, fps=60, title="Tron Kart"):
+    def __init__(self, width: int = 1200, height: int = 800, fps: int = 60,
+                 title: str = "Tron Kart") -> None:
         self.width = width
         self.height = height
         self.fps = fps
         self.title = title
         self.bgColor = BACKGROUND_COLOR
         hurricane = pygame.image.load("images/hurricane.png")
-        self.player = Player(self.width / 2, self.height / 2, BASE_DIRECTION, BASE_SPEED, hurricane)
+        self.player = Player(self.width / 2, self.height / 2,
+                             BASE_DIRECTION, BASE_SPEED, hurricane)
         pygame.init()
-    
-    def run(self):
+
+    def run(self) -> None:
         self.window = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption(self.title)
         clock = pygame.time.Clock()
@@ -33,14 +36,14 @@ class TronKart:
                     break
 
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_w]:
+            if (keys[pygame.K_w] or keys[pygame.K_UP]):  # Speed up
                 self.player.change_speed(SPEED_INCREMENT)
-            if keys[pygame.K_s]:
+            if (keys[pygame.K_s] or keys[pygame.K_DOWN]):  # Slow down
                 self.player.change_speed(-SPEED_INCREMENT)
-            if keys[pygame.K_a]: # Turn left
+            if (keys[pygame.K_a] or keys[pygame.K_LEFT]):  # Turn left
                 self.player.change_direction(ANGLE_INCREMENT)
-            if keys[pygame.K_d]: # Turn right
-                self.player.change_direction(-ANGLE_INCREMENT) 
+            if (keys[pygame.K_d] or keys[pygame.K_RIGHT]):  # Turn right
+                self.player.change_direction(-ANGLE_INCREMENT)
 
             self.window.fill(self.bgColor)
             self.player.update(self.width, self.height)
